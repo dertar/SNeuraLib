@@ -1,6 +1,5 @@
 #include <cxxtest/TestSuite.h>
 #include "Utils.cpp"
-#include <iostream>
 
 class TestNeuron : public CxxTest::TestSuite
 {
@@ -13,8 +12,7 @@ public:
       std::vector<double> v = *neuron.getWeights();
 
       TSM_ASSERT("correct size", 3 == v.size());
-      TSM_ASSERT_DIFFERS("check if weights are randomized for new neuron",
-           0.0, Utils::Sum(v));
+      TS_ASSERT(0.0 == Utils::Sum(v));
     }
 
     void testCreateNeuron1(void)

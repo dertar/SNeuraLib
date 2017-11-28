@@ -1,6 +1,6 @@
 #include <cxxtest/TestSuite.h>
 #include "../src/SingleLayerPerceptron.hpp"
-#include "../src/ActivationFunction.hpp"
+#include "../src/ActivationFunctions.hpp"
 #include "Utils.cpp"
 
 class TestSingleLayerPerceptron : public CxxTest::TestSuite
@@ -10,7 +10,7 @@ private:
 public:
     void testCreateLayer (void)
     {
-      SingleLayerPerceptron slp (2, 2, new ThresholdFunction ());
+      SingleLayerPerceptron slp (2, 2, new ThresholdActivationFunction ());
 
       Neurons neurons = *(slp.getLayers ()->at (0));
 
@@ -18,7 +18,7 @@ public:
       for (int i = 0; i < neurons.size (); i++)
       {
         std::vector<double> *v = neurons[i]->getWeights ();
-        TS_ASSERT_DIFFERS (0.0, Utils::Sum (*v));
+        TS_ASSERT (0.0 == Utils::Sum (*v));
       }
     }
 
@@ -29,7 +29,7 @@ public:
       std::vector<double> weights {-1, 0.3, 0.4};
       oneLayer->at (0)->at (0) = new Neuron (&weights);
 
-      SingleLayerPerceptron slp (oneLayer, new ThresholdFunction ());
+      SingleLayerPerceptron slp (oneLayer, new ThresholdActivationFunction ());
       Signals impulse {1.0, 1.0};
 
       Signal s = slp.impulse (impulse, 0, 0, false);
@@ -44,7 +44,7 @@ public:
       std::vector<double> weights {0.73, -0.41, 0.08};
       oneLayer->at (0)->at (0) = new Neuron (&weights);
 
-      SingleLayerPerceptron slp (oneLayer, new ThresholdFunction ());
+      SingleLayerPerceptron slp (oneLayer, new ThresholdActivationFunction ());
       Signals impulse {1, -0.4};
 
       Signal s = slp.impulse (impulse, 0, 0, false);

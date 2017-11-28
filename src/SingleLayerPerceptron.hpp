@@ -12,9 +12,7 @@ public:
   SingleLayerPerceptron (
     const int inputs,
     const int outputs,
-    ActivationFunction *activationFunction,
-    const double randFrom = 0.1,
-    const double randTo = 0.4
+    ActivationFunction *activationFunction
   );
 
   SingleLayerPerceptron (

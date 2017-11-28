@@ -19,22 +19,9 @@ Neuron::Neuron (Signals *weights)
   this->weights = weights;
 }
 
-Neuron::Neuron (
-    const int inputs,
-    const double randFrom,
-    const double randTo
-  )
+Neuron::Neuron (const int inputs)
 {
-  this->weights = new Signals;
-  std::uniform_real_distribution<double> unif (randFrom,randTo);
-  std::default_random_engine re;
-
-  for(int i = 0; i < inputs + 1; i++)
-  {
-    this->weights->push_back (unif (re));
-  }
-
-  this->weights = weights;
+  this->weights = new Signals (inputs + 1);
 }
 
 Signals* Neuron::getWeights ()

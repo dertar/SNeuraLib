@@ -1,18 +1,16 @@
 #include <cxxtest/TestSuite.h>
 #include "../src/SingleLayerPerceptron.hpp"
-#include "../src/ActivationFunction.hpp"
+#include "../src/ActivationFunctions.hpp"
 #include "Utils.cpp"
-#include "../src/ErrorCorrectionLearning.hpp"
+#include "../src/Learnings/ErrorCorrectionLearning.hpp"
 #include <iostream>
 
 class TestErrorCorrectionLearning : public CxxTest::TestSuite
 {
-private:
-
 public:
     void testTeachErrorCorrection(void)
     {
-      SingleLayerPerceptron slp(2, 1, new ThresholdFunction (), 0.0, 0.0);
+      SingleLayerPerceptron slp(2, 1, new ThresholdActivationFunction ());
       ErrorCorrectionLearning teacher (&slp);
 
       std::vector<double> p3 = {1, 1};
@@ -31,7 +29,7 @@ public:
 
     void testTeachErrorCorrectionAND0(void)
     {
-      SingleLayerPerceptron slp(2, 2, new ThresholdFunction (), 0.0, 0.0);
+      SingleLayerPerceptron slp(2, 2, new ThresholdActivationFunction ());
       ErrorCorrectionLearning teacher (&slp);
 
       std::vector<double> p0 = {0, 0};
@@ -66,7 +64,7 @@ public:
 
     void testTeachErrorCorrectionAND1(void)
     {
-      SingleLayerPerceptron slp(2, 1, new ThresholdFunction (), 0.0, 0.0);
+      SingleLayerPerceptron slp(2, 1, new ThresholdActivationFunction ());
       ErrorCorrectionLearning teacher (&slp);
 
       std::vector<double> p0 = {0, 0};
@@ -94,7 +92,7 @@ public:
 
     void testTeachErrorCorrectionOR0(void)
     {
-      SingleLayerPerceptron slp(2, 2, new ThresholdFunction (), 0.0, 0.0);
+      SingleLayerPerceptron slp(2, 2, new ThresholdActivationFunction ());
       ErrorCorrectionLearning teacher (&slp);
 
       std::vector<double> p0 = {0, 0};
@@ -112,7 +110,7 @@ public:
       std::vector< Signals > patterns
           = {p0, p1, p2, p3};
 
-      int iterations = teacher.teach(patterns, answers, 0.1, 0.0, 10);
+      int iterations = teacher.teach(patterns, answers, 0.1);
 
       TS_ASSERT_DELTA(slp.impulse (p0)[0], answers[0][0], 0.1);
       TS_ASSERT_DELTA(slp.impulse (p0)[1], answers[0][1], 0.1);
@@ -129,7 +127,7 @@ public:
 
     void testTeachErrorCorrectionOR1(void)
     {
-      SingleLayerPerceptron slp(2, 1, new ThresholdFunction (), 0.0, 0.0);
+      SingleLayerPerceptron slp(2, 1, new ThresholdActivationFunction ());
       ErrorCorrectionLearning teacher (&slp);
 
       std::vector<double> p0 = {0, 0};
@@ -157,7 +155,7 @@ public:
 
     void testTeachErrorCorrectionNegative(void)
     {
-      SingleLayerPerceptron slp(1, 1, new ThresholdFunction (), 0.0, 0.0);
+      SingleLayerPerceptron slp(1, 1, new ThresholdActivationFunction ());
       ErrorCorrectionLearning teacher (&slp);
 
       std::vector<double> p0 = {0};

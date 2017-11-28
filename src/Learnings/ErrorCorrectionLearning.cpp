@@ -1,8 +1,9 @@
 #include "ErrorCorrectionLearning.hpp"
 
-ErrorCorrectionLearning::ErrorCorrectionLearning (Perceptron *perceptron) :
-    LearningAgent (perceptron)
+ErrorCorrectionLearning::ErrorCorrectionLearning (SingleLayerPerceptron *perceptron) :
+    Learning (perceptron)
 {
+
 }
 
 ErrorCorrectionLearning::~ErrorCorrectionLearning ()
@@ -19,6 +20,8 @@ int ErrorCorrectionLearning::teach (
 {
   int iterations = 0;
   double globalError;
+
+  this->initializeWeights (0.0, 0.0);
 
   Neurons *neurons = this->perceptron->getLayers ()->at (0);
 

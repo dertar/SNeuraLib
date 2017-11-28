@@ -3,17 +3,13 @@
 SingleLayerPerceptron::SingleLayerPerceptron (
     const int inputs,
     const int outputs,
-    ActivationFunction *activationFunction,
-    const double randFrom,
-    const double randTo
+    ActivationFunction *activationFunction
   ) :
   Perceptron (
     inputs,
     1,
     outputs,
-    activationFunction,
-    randFrom,
-    randTo
+    activationFunction
   )
 {
 }

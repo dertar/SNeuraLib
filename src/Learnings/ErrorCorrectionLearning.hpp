@@ -1,10 +1,11 @@
 #ifndef _ERROR_CORRECTION_LEARNING_HPP_
 #define _ERROR_CORRECTION_LEARNING_HPP_
 
-#include "LearningAgent.hpp"
+#include "Learning.hpp"
+#include "../SingleLayerPerceptron.hpp"
 
 class ErrorCorrectionLearning :
-  public LearningAgent
+  public Learning
 {
 protected:
   double teach (
@@ -15,7 +16,7 @@ protected:
     );
 
 public:
-  ErrorCorrectionLearning (Perceptron *perceptron);
+  ErrorCorrectionLearning (SingleLayerPerceptron *perceptron);
 
   ~ErrorCorrectionLearning ();
 

@@ -2,10 +2,8 @@
 #define _NEURON_HPP_
 
 #include <vector>
-#include <cmath>
-#include <random>
 
-#include "Exception.hpp"
+#include "Utils/Exception.hpp"
 
 typedef double Signal;
 typedef std::vector<Signal> Signals;
@@ -18,11 +16,7 @@ private:
 public:
   Neuron (Signals *weights);
 
-  Neuron (
-    const int inputs,
-    const double randFrom = 0.1,
-    const double randTo = 0.4
-  );
+  Neuron (const int inputs);
 
   ~Neuron ();
 

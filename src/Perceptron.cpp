@@ -4,9 +4,7 @@ Perceptron::Perceptron (
     const int inputs,
     const int layers,
     const int outputs,
-    ActivationFunction *activationFunction,
-    const double randFrom,
-    const double randTo
+    ActivationFunction *activationFunction
   )
 {
   this->layers = new Layers (layers);
@@ -16,7 +14,7 @@ Perceptron::Perceptron (
     this->layers->at (l) = new Neurons (outputs);
     for (int i = 0; i < outputs; i++)
     {
-      this->layers->at (l)->at (i) = new Neuron (inputs, randFrom, randTo);
+      this->layers->at (l)->at (i) = new Neuron (inputs);
     }
   }
   this->activationFunction = activationFunction;
