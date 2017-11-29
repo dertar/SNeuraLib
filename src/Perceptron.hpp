@@ -3,6 +3,7 @@
 
 #include "Neuron.hpp"
 #include "ActivationFunctions/ActivationFunction.hpp"
+#include <iostream>
 
 typedef std::vector<Neuron*> Neurons;
 typedef std::vector<Neurons*> Layers;
@@ -41,6 +42,10 @@ public:
   );
 
   Layers* getLayers ();
+
+  ActivationFunction *getActivationFunction ();
+
+  Signal isActive (const Signal output);
 
   ~Perceptron ();
 };

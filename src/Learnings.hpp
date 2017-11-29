@@ -3,5 +3,6 @@
 
 #include "Learnings/Learning.hpp"
 #include "Learnings/ErrorCorrectionLearning.hpp"
+#include "Learnings/StochasticGradientLearning.hpp"
 
 #endif

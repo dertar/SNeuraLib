@@ -9,8 +9,10 @@ class SigmoidActivationFunction :
 protected:
   double slope;
 public:
-  SigmoidActivationFunction (double threshold, double slope = 1.0);
+  SigmoidActivationFunction (double threshold = 0.5, double slope = 1.0);
+  ~SigmoidActivationFunction ();
   double function (double x);
+  double derivative (double x);
 };
 
 #endif

@@ -9,6 +9,7 @@ class ThresholdActivationFunction :
 public:
   ThresholdActivationFunction (double threshold = 0.5);
   double function (double x);
+  double derivative (double x);
 };
 
 #endif

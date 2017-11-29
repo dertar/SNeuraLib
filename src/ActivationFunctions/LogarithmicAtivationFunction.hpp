@@ -9,6 +9,7 @@ class LogarithmicAtivationFunction :
 public:
   LogarithmicAtivationFunction (double threshold);
   double function (double x);
+  double derivative (double x);
 };
 
 #endif

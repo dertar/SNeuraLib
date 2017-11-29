@@ -8,7 +8,9 @@ class HyperbolicActivationFunction :
 {
 public:
   HyperbolicActivationFunction (double threshold = 0.5, double slope = 1.0);
+  ~HyperbolicActivationFunction ();
   double function (double x);
+  double derivative (double x);
 };
 
 #endif

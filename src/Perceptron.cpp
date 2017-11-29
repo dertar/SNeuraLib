@@ -38,7 +38,7 @@ Perceptron::~Perceptron ()
   }
   this->layers->clear ();
   delete this->layers;
-  delete this->activationFunction;
+  //delete this->activationFunction;
 }
 
 Signals Perceptron::impulse (const Signals &inputs)
@@ -84,4 +84,15 @@ Signal Perceptron::impulse (
 Layers* Perceptron::getLayers ()
 {
   return this->layers;
+}
+
+ActivationFunction* Perceptron::getActivationFunction()
+{
+  return this->activationFunction;
+}
+
+
+double Perceptron::isActive (const Signal output)
+{
+  return this->activationFunction->isActive (output);
 }

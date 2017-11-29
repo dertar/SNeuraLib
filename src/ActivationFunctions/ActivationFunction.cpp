@@ -16,3 +16,8 @@ double ActivationFunction::threshold (double x)
 {
   return x >= this->_threshold ? ACTIVE : DEACTIVE;
 }
+
+ActivationFunction::~ActivationFunction ()
+{
+
+}

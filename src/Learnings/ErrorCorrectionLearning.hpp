@@ -5,7 +5,7 @@
 #include "../SingleLayerPerceptron.hpp"
 
 class ErrorCorrectionLearning :
-  public Learning
+    public Learning
 {
 protected:
   double teach (

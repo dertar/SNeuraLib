@@ -10,3 +10,13 @@ HyperbolicActivationFunction::HyperbolicActivationFunction (double threshold, do
 {
 
 }
+
+HyperbolicActivationFunction::~HyperbolicActivationFunction ()
+{
+
+}
+
+double HyperbolicActivationFunction::derivative (double x)
+{
+  return -exp (-((x*x)/2)/2) * x;
+}

@@ -13,6 +13,7 @@ private:
 public:
   LinearActivationFunction (double threshold = 0.5, double slope = 1.0, double b = 0.0);
   double function (double x);
+  double derivative (double);
 };
 
 #endif
