@@ -173,6 +173,7 @@ public:
 
       TS_ASSERT_DELTA(slp.impulse (p0)[0], answers[0][0], 0.1);
       TS_ASSERT_DELTA(slp.impulse (p1)[0], answers[1][0], 0.1);
+
     }
 
 };

@@ -3,5 +3,6 @@
 
 #include "LossFunctions/LossFunction.hpp"
 #include "LossFunctions/SquareLossFunction.hpp"
+#include "LossFunctions/DefaultLossFunction.hpp"
 
 #endif

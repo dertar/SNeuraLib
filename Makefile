@@ -10,10 +10,10 @@ TEST_FLAGS=-I$CXXTEST -static -std=c++11
 all: cxx_gen compile_cxx run_cxx
 
 cxx_gen:
-	$(PYTHON) $(CXX) $(CXX_FLAGS) runner.cpp "cxx_tests/*.hpp"
+	$(PYTHON) $(CXX) $(CXX_FLAGS) runner.cpp "cxx_tests/MultiLayerPerceptron.hpp" "cxx_tests/*"
 
-compile_cxx: ActivationFunction.o LogarithmicAtivationFunction.o SquareLossFunction.o LossFunction.o StochasticGradientLearning.o GaussianActivationFunction.o SigmoidActivationFunction.o HyperbolicActivationFunction.o LinearActivationFunction.o ErrorCorrectionLearning.o Exception.o Neuron.o Perceptron.o Learning.o SingleLayerPerceptron.o ThresholdActivationFunction.o Utils.o
-	$(CC) -o runner ActivationFunction.o LogarithmicAtivationFunction.o SquareLossFunction.o LossFunction.o StochasticGradientLearning.o GaussianActivationFunction.o SigmoidActivationFunction.o HyperbolicActivationFunction.o LinearActivationFunction.o ErrorCorrectionLearning.o Exception.o Neuron.o Perceptron.o Learning.o SingleLayerPerceptron.o ThresholdActivationFunction.o Utils.o $(TEST_FLAGS) runner.cpp
+compile_cxx: ActivationFunction.o BackPropagationLearning.o LogarithmicAtivationFunction.o MultiLayerPerceptron.o DefaultLossFunction.o SquareLossFunction.o LossFunction.o StochasticGradientLearning.o GaussianActivationFunction.o SigmoidActivationFunction.o HyperbolicActivationFunction.o LinearActivationFunction.o ErrorCorrectionLearning.o Exception.o Neuron.o Perceptron.o Learning.o SingleLayerPerceptron.o ThresholdActivationFunction.o Utils.o
+	$(CC) -o runner ActivationFunction.o BackPropagationLearning.o LogarithmicAtivationFunction.o MultiLayerPerceptron.o DefaultLossFunction.o SquareLossFunction.o LossFunction.o StochasticGradientLearning.o GaussianActivationFunction.o SigmoidActivationFunction.o HyperbolicActivationFunction.o LinearActivationFunction.o ErrorCorrectionLearning.o Exception.o Neuron.o Perceptron.o Learning.o SingleLayerPerceptron.o ThresholdActivationFunction.o Utils.o $(TEST_FLAGS) runner.cpp
 
 run_cxx:
 	runner
@@ -54,6 +54,12 @@ HyperbolicActivationFunction.o: src/ActivationFunctions/HyperbolicActivationFunc
 SingleLayerPerceptron.o: src/SingleLayerPerceptron.cpp
 	$(CC) $(FLAGS) src/SingleLayerPerceptron.cpp
 
+MultiLayerPerceptron.o: src/MultiLayerPerceptron.cpp
+	$(CC) $(FLAGS) src/MultiLayerPerceptron.cpp
+
+BackPropagationLearning.o: src/Learnings/BackPropagationLearning.cpp
+	$(CC) $(FLAGS) src/Learnings/BackPropagationLearning.cpp
+
 ThresholdActivationFunction.o: src/ActivationFunctions/ThresholdActivationFunction.cpp
 	$(CC) $(FLAGS) src/ActivationFunctions/ThresholdActivationFunction.cpp
 
@@ -62,6 +68,9 @@ StochasticGradientLearning.o: src/Learnings/StochasticGradientLearning.cpp
 
 LossFunction.o: src/LossFunctions/LossFunction.cpp
 	$(CC) $(FLAGS) src/LossFunctions/LossFunction.cpp
+
+DefaultLossFunction.o: src/LossFunctions/DefaultLossFunction.cpp
+	$(CC) $(FLAGS) src/LossFunctions/DefaultLossFunction.cpp
 
 SquareLossFunction.o: src/LossFunctions/SquareLossFunction.cpp
 	$(CC) $(FLAGS) src/LossFunctions/SquareLossFunction.cpp

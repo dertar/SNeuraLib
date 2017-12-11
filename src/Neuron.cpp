@@ -1,11 +1,11 @@
 #include "Neuron.hpp"
 
-double Neuron::adder (const Signals &inputs)
+Signal Neuron::adder (const Signals &inputs)
 {
   if (inputs.size () != this->weights->size () - 1)
     throw new Exception ("inputs and weights vectors are not equals");
 
-  double amount = -1.0 * this->weights->at (0);
+  double amount = ZERO_WEIGHT * this->weights->at (0);
 
   for (int i = 1; i < this->weights->size (); i++)
   {
@@ -29,8 +29,19 @@ Signals* Neuron::getWeights ()
   return this->weights;
 }
 
+int Neuron::size ()
+{
+  return this->weights->size ();
+}
+
+
 Neuron::~Neuron ()
 {
   this->weights->clear ();
   delete this->weights;
+}
+
+Signal& Neuron::at(const int index)
+{
+  return this->weights->at (index);
 }

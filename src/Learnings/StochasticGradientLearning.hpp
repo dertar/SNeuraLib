@@ -9,6 +9,8 @@ class StochasticGradientLearning :
     public Learning
 {
 private:
+  SingleLayerPerceptron *slp;
+
   double calculateGlobalError (
       const std::vector< Signals > &patterns,
       const std::vector< Signals > &answers,
@@ -39,18 +41,19 @@ protected:
 
 public:
   StochasticGradientLearning (
-    SingleLayerPerceptron *perceptron,
+    SingleLayerPerceptron *slp,
     LossFunction *lossFunction
   );
 
   ~StochasticGradientLearning ();
 
-  int teach (
+  std::pair<int, float> *teach (
     const std::vector< Signals > &patterns,
     const std::vector< Signals > &answers,
     const double rate = 0.1,
     const double globalErrorMin = 0.1,
-    const int maxIterations = 100
+    const int maxIterations = 100,
+    const bool randomFeed = true
   );
 
 };

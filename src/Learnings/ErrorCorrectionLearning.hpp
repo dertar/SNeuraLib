@@ -7,7 +7,9 @@
 class ErrorCorrectionLearning :
     public Learning
 {
-protected:
+private:
+  SingleLayerPerceptron *slp;
+
   double teach (
       Neuron *neuron,
       const Signals &inputs,
@@ -16,16 +18,17 @@ protected:
     );
 
 public:
-  ErrorCorrectionLearning (SingleLayerPerceptron *perceptron);
+  ErrorCorrectionLearning (SingleLayerPerceptron *slp);
 
   ~ErrorCorrectionLearning ();
 
-  int teach (
+  std::pair<int,float> *teach (
     const std::vector< Signals > &patterns,
     const std::vector< Signals > &answers,
     const double rate = 0.1,
     const double globalErrorMin = 0.1,
-    const int maxIterations = 100
+    const int maxIterations = 100,
+    const bool randomFeed = false
   );
 
 };

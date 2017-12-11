@@ -5,38 +5,60 @@
 #include <queue>
 
 #include "../Perceptron.hpp"
+#include "../LossFunctions.hpp"
 
 class Learning
 {
+private:
+  int iPattern;
+  std::vector < int > *sequence;
+
+std::vector<int> *generateSequenceArray (
+  const int size
+);
+
+void generateShuffledSequence (
+    const int size
+);
 
 protected:
-  Perceptron *perceptron;
   std::default_random_engine *re;
+  LossFunction *lossFunction;
 
-  void initializeWeights (double min = 0.1, double max = 0.3);
-  void generateShuffledSequence (
-      std::vector<int> &sequence,
-      const int size
-    );
+  void initializeWeights (
+    Neurons *neurons,
+    double min = 0.1,
+    double max = 0.3
+  );
 
   void generateSequence (
-      std::vector<int> &sequence,
-      const int size
-    );
+    const int size,
+    const bool shuffle = false
+  );
+
+  bool isOverBatch ();
+  void nextPattern ();
+  int getIndexOfPattern ();
 
 public:
-  Learning(Perceptron *perceptron);
+  Learning ();
 
-  ~Learning();
+  ~Learning ();
 
-  virtual int teach (
+  virtual std::pair<int, float> *teach (
     const std::vector< Signals > &patterns,
     const std::vector< Signals > &answers,
     const double rate = 0.1,
     const double globalErrorMin = 0.1,
-    const int maxIterations = 100
+    const int maxIterations = 100,
+    const bool randomFeed = false
   ) = 0;
+};
 
+enum PATTERN_FEED
+{
+  SEQUENCE,
+  RANDOM
 };
 
 #endif

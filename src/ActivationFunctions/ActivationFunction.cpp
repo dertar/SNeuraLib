@@ -7,9 +7,13 @@ ActivationFunction::ActivationFunction (double threshold)
 
 double ActivationFunction::isActive (double x)
 {
-  return this->threshold (
-    this->function (x)
-  );
+  double func = this->function (x);
+  double threshold = this->threshold(func);
+
+  return threshold;
+  // return this->threshold (
+  //   this->function (x)
+  // );
 }
 
 double ActivationFunction::threshold (double x)
@@ -20,4 +24,25 @@ double ActivationFunction::threshold (double x)
 ActivationFunction::~ActivationFunction ()
 {
 
+}
+
+bool ActivationFunction::Threshold (double x, double threshold)
+{
+  return x >= threshold ? true : false;
+}
+
+std::vector<bool> *ActivationFunction::ActiveImpulse (
+    Signals &signals,
+    double threshold
+  )
+{
+  std::vector<bool> *ret = new std::vector<bool> (signals.size ());
+
+  for (int i = 0; i < ret->size (); i++)
+  {
+    ret->at (i) = ActivationFunction::Threshold
+      (signals.at (i), threshold);
+  }
+
+  return  ret;
 }

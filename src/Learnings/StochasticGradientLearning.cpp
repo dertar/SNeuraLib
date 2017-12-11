@@ -4,8 +4,7 @@
 StochasticGradientLearning::StochasticGradientLearning (
   SingleLayerPerceptron *perceptron,
   LossFunction *lossFunction
-) :
-    Learning (perceptron)
+)
 {
   this->lossFunction = lossFunction;
 }
@@ -26,9 +25,9 @@ double StochasticGradientLearning::calculateGlobalError (
     for (int n = 0; n < neurons->size (); n++)
     {
       double answer = answers.at (p).at (n);
-      double output = this->perceptron-> impulse (patterns.at (p), 0, n);
+      double output = this->slp->impulse (patterns.at (p), n);
 
-      sum += this->lossFunction-> function (output, answer);
+      sum += this->lossFunction->function (output, answer);
     }
   }
   return sum;
@@ -43,37 +42,38 @@ double StochasticGradientLearning::calculateCorrectiveGlobalError (
   return ((sizePatterns - 1.0) / sizePatterns) * globalError + 1.0/sizePatterns * (errorSignal * errorSignal);
 }
 
-int StochasticGradientLearning::teach (
+std::pair<int, float> *StochasticGradientLearning::teach (
     const std::vector< Signals > &patterns,
     const std::vector< Signals > &answers,
     const double rate,
     const double globalErrorMin,
-    const int maxIterations
+    const int maxIterations,
+    const bool randomFeed
   )
 {
   int iterations = 0;
 
-  Neurons *neurons = this->perceptron->getLayers ()->at (0);
+  Neurons *neurons = this->slp->getNeurons ();
 
   double rndWeight = 1/(2*neurons->size ());
-  this->initializeWeights (-rndWeight, rndWeight);
 
-  double errorSignal, globalError ;
+  this->initializeWeights (neurons, -rndWeight, rndWeight);
 
+  double errorSignal, globalError;
+  int p;
   do
   {
     globalError = this->calculateGlobalError (patterns, answers, neurons);
     std::vector<int> sequence;
-    this->generateShuffledSequence (sequence, patterns.size ());
+    this->generateSequence (patterns.size (), randomFeed);
 
-    while (!sequence.empty ())
+    while (!this->isOverBatch ())
     {
-      int p = sequence.at (0);
-      sequence.erase(sequence.begin ());
+      int p = this->getIndexOfPattern ();
 
       for (int n = 0; n < neurons->size (); n++)
       {
-        Signal output = this->perceptron->impulse (patterns.at (p), 0, n, true);
+        Signal output = this->slp->impulse (patterns.at (p), n);
 
         errorSignal = this->lossFunction->function (
           output,
@@ -93,13 +93,12 @@ int StochasticGradientLearning::teach (
       }
     }
 
-    if (++iterations >= maxIterations)
-    {
-      throw new Exception ("ERL can't train, reached all iterations");
-    }
-  }while (globalError > globalErrorMin);
+  }while (
+    globalError > globalErrorMin &&
+    ++iterations < maxIterations
+  );
 
-  return iterations;
+  return new std::pair<int, float> (iterations, globalError);
 }
 
 double StochasticGradientLearning::calculateCorrection (
@@ -110,7 +109,7 @@ double StochasticGradientLearning::calculateCorrection (
 )
 {
   return rate * this->lossFunction->derivative (outputSignal, answer)
-    * this->perceptron->getActivationFunction ()->derivative (outputSignal)
+    * this->slp->getActivationFunction ()->derivative (outputSignal)
     * inputSignal;
 }
 
@@ -126,7 +125,7 @@ double StochasticGradientLearning::teach (
   if (weights->size () - 1 != inputs.size ())
     throw new Exception ("inputs and weights vectors are not equals");
 
-  double output = this->perceptron->getActivationFunction ()-> isActive (neuron->adder (inputs));
+  double output = this->slp->getActivationFunction ()-> isActive (neuron->adder (inputs));
   double correction = this->calculateCorrection (output, -1.0, answer, rate);
   double globalCorrection = fabs (correction);
 
@@ -137,7 +136,6 @@ double StochasticGradientLearning::teach (
     correction = this->calculateCorrection (output, inputs[i - 1], answer, rate);
     weights->at (i) -= correction;
     globalCorrection += fabs (correction);
-
   }
 
   return globalCorrection;

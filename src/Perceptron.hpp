@@ -11,23 +11,14 @@ typedef std::vector<Neurons*> Layers;
 class Perceptron
 {
 protected:
-  Layers *layers;
   ActivationFunction *activationFunction;
 
-  Perceptron (
-    const int inputs,
-    const int layers,
-    const int outputs,
-    ActivationFunction *activationFunction
-  );
-
-  Perceptron (
-    Layers *layers,
-    ActivationFunction *activationFunction
-  );
-
 public:
-  Signals impulse (const Signals &inputs);
+  Perceptron (ActivationFunction *activeFunction);
+
+  ~Perceptron ();
+
+  virtual Signals impulse (const Signals &inputs) = 0;
 
   Signals impulse (
     const Signals &inputs,
@@ -41,12 +32,11 @@ public:
       const bool activeFunction = true
   );
 
-  Layers* getLayers ();
+  Neurons* createLayer (
+    const int inputs,
+    const int outputs
+  );
 
-  ActivationFunction *getActivationFunction ();
-
-  Signal isActive (const Signal output);
-
-  ~Perceptron ();
+  ActivationFunction* getActivationFunction ();
 };
 #endif

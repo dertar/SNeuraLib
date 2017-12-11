@@ -1,29 +1,30 @@
 #include "ErrorCorrectionLearning.hpp"
 
-ErrorCorrectionLearning::ErrorCorrectionLearning (SingleLayerPerceptron *perceptron) :
-    Learning (perceptron)
+ErrorCorrectionLearning::ErrorCorrectionLearning (SingleLayerPerceptron *slp)
 {
-
+  this->slp = slp;
 }
 
 ErrorCorrectionLearning::~ErrorCorrectionLearning ()
 {
 }
 
-int ErrorCorrectionLearning::teach (
+std::pair<int, float> *ErrorCorrectionLearning::teach (
     const std::vector< Signals > &patterns,
     const std::vector< Signals > &answers,
     const double rate,
     const double globalErrorMin,
-    const int maxIterations
+    const int maxIterations,
+    const bool randomFeed
   )
 {
   int iterations = 0;
   double globalError;
 
-  this->initializeWeights (0.0, 0.0);
+  Neurons *neurons = this->slp->getNeurons ();
+  double randWeights = 1.0 / (2.0 * neurons->size ());
 
-  Neurons *neurons = this->perceptron->getLayers ()->at (0);
+  this->initializeWeights (neurons, -randWeights, randWeights);
 
   do
   {
@@ -32,22 +33,20 @@ int ErrorCorrectionLearning::teach (
     {
       for (int n = 0; n < neurons->size (); n++)
       {
-        Signal output = this->perceptron->impulse (patterns.at (p), 0, n);
+        Signal output = this->slp->impulse (patterns.at (p), n);
         double errorSignal = answers.at (p).at (n) - output;
         double changed = this->teach (
           neurons->at (n), patterns.at (p), errorSignal, rate
         );
-
         globalError += fabs (errorSignal);
       }
     }
-    if (++iterations >= maxIterations)
-    {
-      throw new Exception ("ERL can't train, reached all iterations");
-    }
-  }while (globalError > globalErrorMin);
+  }while (
+    globalError > globalErrorMin &&
+    ++iterations < maxIterations
+  );
 
-  return iterations;
+  return new std::pair<int, float> (iterations, globalError);
 }
 
 double ErrorCorrectionLearning::teach (
@@ -62,7 +61,7 @@ double ErrorCorrectionLearning::teach (
   if (weights->size () - 1 != inputs.size ())
     throw new Exception ("inputs and weights vectors are not equals");
 
-  double correction = rate * errorSignal * -1.0,
+  double correction = rate * errorSignal * ZERO_WEIGHT,
          globalCorrection = fabs (correction);
 
   weights->at (0) += correction;

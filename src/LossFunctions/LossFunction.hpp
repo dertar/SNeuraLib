@@ -10,4 +10,15 @@ public:
   virtual double derivative (double output,double answer) = 0;
 };
 
+enum ELOSS_FUNCTION
+{
+  ELOSS_FUNCTION_SQUARE,
+  ELOSS_FUNCTION_DEFAULT
+};
+
+enum ELOSS_FUNCTION_D
+{
+  ELOSS_FUNCTION_D_SQUARE
+};
+
 #endif

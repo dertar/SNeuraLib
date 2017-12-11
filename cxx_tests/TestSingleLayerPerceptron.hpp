@@ -12,44 +12,41 @@ public:
     {
       SingleLayerPerceptron slp (2, 2, new ThresholdActivationFunction ());
 
-      Neurons neurons = *(slp.getLayers ()->at (0));
+      Neurons *neurons = slp.getNeurons ();
 
-      TSM_ASSERT("correct size", 2 == neurons.size ());
-      for (int i = 0; i < neurons.size (); i++)
+      TSM_ASSERT("correct size", 2 == neurons->size ());
+      for (int i = 0; i < neurons->size (); i++)
       {
-        std::vector<double> *v = neurons[i]->getWeights ();
+        std::vector<double> *v = neurons->at (i)->getWeights ();
         TS_ASSERT (0.0 == Utils::Sum (*v));
       }
     }
 
     void testImpulse0(void)
     {
-      Layers *oneLayer = new Layers (1);
-      oneLayer->at (0) = new Neurons (1);
       std::vector<double> weights {-1, 0.3, 0.4};
-      oneLayer->at (0)->at (0) = new Neuron (&weights);
+      Neurons *neurons = new Neurons(1);
+      neurons->at (0) = new Neuron (&weights);
 
-      SingleLayerPerceptron slp (oneLayer, new ThresholdActivationFunction ());
+      SingleLayerPerceptron slp (neurons, new ThresholdActivationFunction ());
       Signals impulse {1.0, 1.0};
 
-      Signal s = slp.impulse (impulse, 0, 0, false);
+      Signal s = slp.adder (impulse, 0);
 
       TSM_ASSERT_DELTA("correct impulse ", 1.7 , s, 0.1);
     }
 
     void testImpulse1(void)
     {
-      Layers *oneLayer = new Layers (1);
-      oneLayer->at (0) = new Neurons (1);
       std::vector<double> weights {0.73, -0.41, 0.08};
-      oneLayer->at (0)->at (0) = new Neuron (&weights);
+      Neurons *neurons = new Neurons(1);
+      neurons->at (0) = new Neuron (&weights);
 
-      SingleLayerPerceptron slp (oneLayer, new ThresholdActivationFunction ());
+      SingleLayerPerceptron slp (neurons, new ThresholdActivationFunction ());
       Signals impulse {1, -0.4};
 
-      Signal s = slp.impulse (impulse, 0, 0, false);
+      Signal s = slp.adder (impulse, 0);
 
       TSM_ASSERT_DELTA("correct impulse ", -1.172 , s, 0.001);
-
     }
 };

@@ -18,6 +18,7 @@ double SigmoidActivationFunction::function (double x)
 
 double SigmoidActivationFunction::derivative (double x)
 {
-  return //exp (this->slope * x) / pow (exp (this->slope * x) + 1, 2);
-  -exp (this->slope*x);
+  double sigm = this->function (x);
+  return sigm * (1 - sigm);
+  //(this->slope * exp ( -(this->slope * x) )) / pow (exp ( -(this->slope * x) ) + 1, 2);
 }

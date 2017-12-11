@@ -1,2 +1,2 @@
 # SNeuraLib
-Simple Neural Lib
+Simple/Shitty Neural Lib

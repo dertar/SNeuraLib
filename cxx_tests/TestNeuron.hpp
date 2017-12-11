@@ -1,5 +1,6 @@
 #include <cxxtest/TestSuite.h>
 #include "Utils.cpp"
+#include "../src/Neuron.hpp"
 
 class TestNeuron : public CxxTest::TestSuite
 {
@@ -47,5 +48,15 @@ public:
       double adder = neuron.adder (impulse);
 
       TSM_ASSERT_DELTA("correct adder ", 1.0 , adder, 0.1);
+    }
+
+    void testAdder2(void)
+    {
+      std::vector<double> weights {-0.368462, -0.0413499};
+      Neuron neuron = Neuron(&weights);
+      std::vector<double> impulse {0};
+      double adder = neuron.adder (impulse);
+
+      TSM_ASSERT_DELTA("correct adder ", 0.368462 , adder, 0.1);
     }
 };

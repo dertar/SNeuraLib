@@ -5,6 +5,9 @@
 
 #include "Utils/Exception.hpp"
 
+
+const static double ZERO_WEIGHT = 1.0;
+
 typedef double Signal;
 typedef std::vector<Signal> Signals;
 
@@ -14,6 +17,7 @@ private:
   Signals *weights;
 
 public:
+
   Neuron (Signals *weights);
 
   Neuron (const int inputs);
@@ -22,7 +26,11 @@ public:
 
   Signals* getWeights ();
 
-  double adder (const Signals &inputs);
+  Signal adder (const Signals &inputs);
+
+  Signal& at (const int index);
+
+  int size ();
 };
 
 #endif
